@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Default brand palette (Royal Blue) as RGB channels.
+       Overridden at runtime by the Branding theme picker (see lib/themes.ts). */
+    --primary-50: 238 244 255;
+    --primary-100: 219 230 255;
+    --primary-200: 189 210 255;
+    --primary-300: 144 180 255;
+    --primary-400: 91 139 255;
+    --primary-500: 47 107 255;
+    --primary-600: 29 78 216;
+    --primary-700: 26 67 189;
+    --primary-800: 27 58 153;
+    --primary-900: 28 53 120;
+    --primary-950: 21 33 73;
+  }
+
+  * {
+    @apply border-slate-200;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-surface-muted text-slate-800 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Thin, unobtrusive scrollbars that match the light theme. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-500/60 ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer components {
+  /* Reusable utility for the frosted card surface used across the dashboard. */
+  .panel {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-card;
+  }
+}
