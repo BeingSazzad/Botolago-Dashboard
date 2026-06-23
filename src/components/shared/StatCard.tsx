@@ -36,7 +36,7 @@ export function StatCard({ label, value, icon, delta, hint, iconClassName }: Sta
           {delta != null && (
             <span
               className={cn(
-                'inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                'inline-flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-xs font-semibold',
                 positive ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700',
               )}
             >

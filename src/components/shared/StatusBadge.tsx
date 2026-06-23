@@ -19,7 +19,7 @@ export function PositionBadge({ position }: { position: Position }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset',
+        'inline-flex items-center whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset',
         meta.tone,
       )}
     >

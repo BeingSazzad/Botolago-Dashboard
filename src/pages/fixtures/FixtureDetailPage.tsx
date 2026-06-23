@@ -186,13 +186,13 @@ export function FixtureDetailPage() {
               <div className="flex gap-6 text-sm">
                 <div>
                   <p className="font-medium text-slate-500">Home ({fx.homeShort})</p>
-                  <span className="mt-1 inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-sm font-semibold text-blue-700">
+                  <span className="mt-1 inline-flex items-center whitespace-nowrap rounded-full bg-blue-50 px-2.5 py-0.5 text-sm font-semibold text-blue-700">
                     {fx.homeDifficulty.toFixed(1)}×
                   </span>
                 </div>
                 <div>
                   <p className="font-medium text-slate-500">Away ({fx.awayShort})</p>
-                  <span className="mt-1 inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-600">
+                  <span className="mt-1 inline-flex items-center whitespace-nowrap rounded-full bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-600">
                     {fx.awayDifficulty.toFixed(1)}×
                   </span>
                 </div>

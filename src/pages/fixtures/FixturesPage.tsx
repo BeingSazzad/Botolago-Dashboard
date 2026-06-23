@@ -141,9 +141,9 @@ export function FixturesPage() {
     {
       key: 'gameweek',
       header: 'GW',
-      width: '64px',
+      width: '84px',
       render: (row) => (
-        <span className="inline-flex items-center rounded-full bg-primary-50 px-2 py-0.5 text-xs font-semibold text-primary-700">
+        <span className="inline-flex items-center whitespace-nowrap rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-semibold text-primary-700">
           GW {row.gameweek}
         </span>
       ),
@@ -196,10 +196,10 @@ export function FixturesPage() {
       header: 'Difficulty',
       render: (row) => (
         <div className="flex items-center gap-1 text-xs">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 font-medium text-blue-700">
+          <span className="inline-flex items-center whitespace-nowrap rounded-full bg-blue-50 px-2 py-0.5 font-medium text-blue-700">
             H {row.homeDifficulty.toFixed(1)}×
           </span>
-          <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
+          <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
             A {row.awayDifficulty.toFixed(1)}×
           </span>
         </div>
