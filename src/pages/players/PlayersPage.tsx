@@ -131,7 +131,9 @@ export function PlayersPage() {
       header: 'Price',
       sortable: true,
       align: 'right',
-      render: (row) => <span className="font-medium text-slate-700">£{row.price.toFixed(1)}m</span>,
+      render: (row) => (
+        <span className="whitespace-nowrap font-medium text-slate-700">DH {row.price.toFixed(1)}M</span>
+      ),
     },
     {
       key: 'rating',

@@ -128,20 +128,20 @@ export const PLAYER_STATUS_OPTIONS: SelectOption<PlayerStatus>[] = (
   Object.keys(PLAYER_STATUS_META) as PlayerStatus[]
 ).map((s) => ({ label: PLAYER_STATUS_META[s].label, value: s }))
 
-/** Premier-League-style club set used by the mock data + selects. */
+/** Botola Pro 1 (Moroccan top division) club set used by the mock data + selects. */
 export const CLUBS: { name: string; short: string }[] = [
-  { name: 'Arsenal', short: 'ARS' },
-  { name: 'Aston Villa', short: 'AVL' },
-  { name: 'Brighton', short: 'BHA' },
-  { name: 'Chelsea', short: 'CHE' },
-  { name: 'Everton', short: 'EVE' },
-  { name: 'Liverpool', short: 'LIV' },
-  { name: 'Man City', short: 'MCI' },
-  { name: 'Man Utd', short: 'MUN' },
-  { name: 'Newcastle', short: 'NEW' },
-  { name: 'Tottenham', short: 'TOT' },
-  { name: 'West Ham', short: 'WHU' },
-  { name: 'Wolves', short: 'WOL' },
+  { name: 'Raja Casablanca', short: 'RCA' },
+  { name: 'Wydad AC', short: 'WAC' },
+  { name: 'AS FAR', short: 'FAR' },
+  { name: 'RS Berkane', short: 'RSB' },
+  { name: 'FUS Rabat', short: 'FUS' },
+  { name: 'Maghreb Fès', short: 'MAS' },
+  { name: 'Hassania Agadir', short: 'HUS' },
+  { name: 'Olympique Safi', short: 'OCS' },
+  { name: 'Moghreb Tétouan', short: 'MAT' },
+  { name: 'Difaâ El Jadida', short: 'DHJ' },
+  { name: 'Chabab Mohammédia', short: 'CHM' },
+  { name: 'Mouloudia Oujda', short: 'MCO' },
 ]
 
 export const CLUB_OPTIONS: SelectOption[] = CLUBS.map((c) => ({ label: c.name, value: c.name }))

@@ -190,7 +190,7 @@ export function TeamDetailPage() {
                     Squad Value
                   </p>
                   <p className="mt-1 text-2xl font-bold text-slate-900">
-                    £{team.squadValue.toFixed(1)}m
+                    DH {team.squadValue.toFixed(1)}M
                   </p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
@@ -198,7 +198,7 @@ export function TeamDetailPage() {
                     In the Bank
                   </p>
                   <p className="mt-1 text-2xl font-bold text-slate-900">
-                    £{team.budget.toFixed(1)}m
+                    DH {team.budget.toFixed(1)}M
                   </p>
                 </div>
               </div>

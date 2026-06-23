@@ -143,7 +143,7 @@ export function PlayerFormPage() {
             <CardHeader title="Fantasy settings" description="Values the platform controls." />
             <CardContent className="grid grid-cols-2 gap-4">
               <Input
-                label="Price (£m)"
+                label="Price (M DH)"
                 name="price"
                 type="number"
                 step={0.1}

@@ -92,7 +92,7 @@ export function TeamsPage() {
       header: 'Squad Value',
       align: 'right',
       render: (t) => (
-        <span className="font-medium text-slate-700">£{t.squadValue.toFixed(1)}m</span>
+        <span className="whitespace-nowrap font-medium text-slate-700">DH {t.squadValue.toFixed(1)}M</span>
       ),
     },
     {
@@ -100,7 +100,7 @@ export function TeamsPage() {
       header: 'Budget',
       align: 'right',
       render: (t) => (
-        <span className="text-slate-600">£{t.budget.toFixed(1)}m</span>
+        <span className="whitespace-nowrap text-slate-600">DH {t.budget.toFixed(1)}M</span>
       ),
     },
     {

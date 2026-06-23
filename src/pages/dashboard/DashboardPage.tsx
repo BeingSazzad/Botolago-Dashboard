@@ -204,7 +204,7 @@ function MoversCard({ rows }: { rows: MoverRow[] }) {
               </p>
             </div>
             <span className={cn('text-sm font-semibold', up ? 'text-emerald-600' : 'text-rose-600')}>
-              {up ? '+' : '−'}£{Math.abs(m.priceChange).toFixed(1)}m
+              {up ? '+' : '−'}DH {Math.abs(m.priceChange).toFixed(1)}M
             </span>
           </div>
         )
@@ -352,7 +352,7 @@ export function DashboardPage() {
         />
         <StatCard
           label="Revenue (MTD)"
-          value={`£${formatCompact(stats.revenue)}`}
+          value={`DH ${formatCompact(stats.revenue)}`}
           delta={stats.revenueDelta}
           hint="vs last month"
           icon={<Activity className="h-5 w-5" />}

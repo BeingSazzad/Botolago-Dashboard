@@ -109,7 +109,7 @@ export function PlayerDetailPage() {
         />
         <StatCard
           label="Price"
-          value={`£${player.price.toFixed(1)}m`}
+          value={`DH ${player.price.toFixed(1)}M`}
           icon={<PoundSterling className="h-5 w-5" />}
           hint="Transfer value"
           iconClassName="bg-emerald-50 text-emerald-600"

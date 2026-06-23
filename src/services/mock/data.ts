@@ -33,16 +33,16 @@ const isoFrom = (offsetDays: number) => new Date(NOW + offsetDays * DAY).toISOSt
 /* Players                                                            */
 /* ------------------------------------------------------------------ */
 const FIRST = [
-  'Mohamed', 'Erling', 'Bukayo', 'Bruno', 'Kevin', 'Heung-min', 'Marcus', 'Cole',
-  'Trent', 'Virgil', 'Declan', 'Phil', 'Martin', 'Ollie', 'James', 'Alexander',
-  'Gabriel', 'Rodri', 'Jude', 'Kai', 'Dominic', 'Eberechi', 'Anthony', 'Morgan',
+  'Achraf', 'Soufiane', 'Youssef', 'Ayoub', 'Yassine', 'Hamza', 'Zakaria', 'Mehdi',
+  'Walid', 'Anas', 'Reda', 'Oussama', 'Ilias', 'Amine', 'Marouane', 'Karim',
+  'Khalid', 'Said', 'Noussair', 'Tarik', 'Abderrazak', 'Badr', 'Hicham', 'Nabil',
 ]
 const LAST = [
-  'Salah', 'Haaland', 'Saka', 'Fernandes', 'De Bruyne', 'Son', 'Rashford', 'Palmer',
-  'Alexander-Arnold', 'van Dijk', 'Rice', 'Foden', 'Ødegaard', 'Watkins', 'Maddison',
-  'Isak', 'Martinelli', 'Hernández', 'Bellingham', 'Havertz', 'Solanke', 'Eze',
+  'Rahimi', 'El Kaabi', 'Hafidi', 'Motrani', 'Benhalib', 'Jabrane', 'Nahiri', 'Moutouali',
+  'Banoun', 'Chair', 'Ounahi', 'Aguerd', 'Saiss', 'Boufal', 'Harit', 'Amallah',
+  'Ezzalzouli', 'El Khannous', 'Hadraf', 'Bencharki', 'Nakach', 'Founti', 'Khaloua', 'Mendyl',
 ]
-const COUNTRIES = ['England', 'Brazil', 'France', 'Spain', 'Portugal', 'Norway', 'Egypt', 'Argentina', 'Korea']
+const COUNTRIES = ['Morocco', 'Morocco', 'Morocco', 'Morocco', 'Senegal', 'Ivory Coast', 'DR Congo', 'Guinea', 'Mali', 'Cameroon', 'Tunisia', 'Comoros']
 
 function randStats(position: Position): MatchStats {
   const attacking = position === 'Forward' || position === 'Midfielder'
@@ -128,7 +128,7 @@ export const users: User[] = Array.from({ length: 60 }).map((_, i) => {
 users.sort((a, b) => b.totalPoints - a.totalPoints).forEach((u, i) => (u.rank = i + 1))
 
 export const teams: FantasyTeam[] = users.slice(0, 40).map((u, i) => {
-  // Squad value + bank must equal the £100m budget cap (QA: keep them consistent).
+  // Squad value + bank must equal the 100M-dirham budget cap (QA: keep them consistent).
   const squadValue = Number(rand(96, 99.9).toFixed(1))
   return {
     id: `team_${3000 + i}`,
@@ -275,7 +275,7 @@ export const gameweeks: Gameweek[] = Array.from({ length: 8 }).map((_, i) => {
     fixtures: 5,
     averagePoints: status === 'upcoming' ? 0 : randInt(38, 62),
     highestPoints: status === 'upcoming' ? 0 : randInt(88, 142),
-    mostCaptained: pick(['Haaland', 'Salah', 'Palmer', 'Saka', 'Son']),
+    mostCaptained: pick(['Rahimi', 'El Kaabi', 'Hafidi', 'Benhalib', 'Moutouali']),
   }
 })
 
@@ -305,7 +305,7 @@ export const cmsPages: CmsPage[] = [
     id: 'cms_3',
     slug: 'about',
     title: 'About Botola Go',
-    body: '# About\n\nBotola Go is the most exciting way to play fantasy football with friends.',
+    body: "# About\n\nBotola Go is Morocco's most exciting way to play Botola Pro 1 fantasy football with friends.",
     status: 'draft',
     updatedAt: isoFrom(-3),
     updatedBy: 'Content Editor',
@@ -363,7 +363,7 @@ export const faqs: FaqItem[] = [
 export const admins: AdminUser[] = [
   {
     id: 'adm_1',
-    name: 'Riad Hossain',
+    name: 'Riad El Mansouri',
     email: 'binarybards27@gmail.com',
     role: 'super_admin',
     roleName: 'Super Admin',
@@ -374,8 +374,8 @@ export const admins: AdminUser[] = [
   },
   {
     id: 'adm_2',
-    name: 'Sophia Reyes',
-    email: 'sophia@botolago.app',
+    name: 'Salma Bennani',
+    email: 'salma@botolago.app',
     role: 'admin',
     roleName: 'Admin',
     permissions: [],
@@ -385,8 +385,8 @@ export const admins: AdminUser[] = [
   },
   {
     id: 'adm_3',
-    name: 'Daniel Okafor',
-    email: 'daniel@botolago.app',
+    name: 'Youssef Idrissi',
+    email: 'youssef@botolago.app',
     role: 'editor',
     roleName: 'Content Editor',
     permissions: [],
@@ -396,8 +396,8 @@ export const admins: AdminUser[] = [
   },
   {
     id: 'adm_4',
-    name: 'Mei Tanaka',
-    email: 'mei@botolago.app',
+    name: 'Imane Alaoui',
+    email: 'imane@botolago.app',
     role: 'analyst',
     roleName: 'Analyst',
     permissions: [],
@@ -446,10 +446,10 @@ export const pointsDistribution = [
 ]
 
 export const recentActivity = [
-  { id: 'a1', actor: 'Sophia Reyes', action: 'updated player', target: 'Erling Haaland', at: isoFrom(0) },
+  { id: 'a1', actor: 'Salma Bennani', action: 'updated player', target: 'Soufiane Rahimi', at: isoFrom(0) },
   { id: 'a2', actor: 'System', action: 'closed deadline for', target: 'Gameweek 3', at: isoFrom(0) },
-  { id: 'a3', actor: 'Daniel Okafor', action: 'published', target: 'How to Play', at: isoFrom(-1) },
-  { id: 'a4', actor: 'Riad Hossain', action: 'invited admin', target: 'Mei Tanaka', at: isoFrom(-2) },
+  { id: 'a3', actor: 'Youssef Idrissi', action: 'published', target: 'How to Play', at: isoFrom(-1) },
+  { id: 'a4', actor: 'Riad El Mansouri', action: 'invited admin', target: 'Imane Alaoui', at: isoFrom(-2) },
   { id: 'a5', actor: 'System', action: 'finalised scores for', target: 'Gameweek 2', at: isoFrom(-3) },
 ]
 
@@ -485,12 +485,12 @@ export interface MatchdayFixture {
 
 /** Today's matchday — live scores + minute come straight from the feed. */
 export const matchday: MatchdayFixture[] = [
-  { id: 'md1', homeClub: 'Arsenal', awayClub: 'Chelsea', homeShort: 'ARS', awayShort: 'CHE', homeScore: 2, awayScore: 1, status: 'live', minute: 67, kickoff: null },
-  { id: 'md2', homeClub: 'Liverpool', awayClub: 'Man City', homeShort: 'LIV', awayShort: 'MCI', homeScore: 1, awayScore: 1, status: 'live', minute: 54, kickoff: null },
-  { id: 'md3', homeClub: 'Man Utd', awayClub: 'Tottenham', homeShort: 'MUN', awayShort: 'TOT', homeScore: null, awayScore: null, status: 'upcoming', minute: null, kickoff: isoFrom(0.12) },
-  { id: 'md4', homeClub: 'Newcastle', awayClub: 'Brighton', homeShort: 'NEW', awayShort: 'BHA', homeScore: null, awayScore: null, status: 'upcoming', minute: null, kickoff: isoFrom(0.22) },
-  { id: 'md5', homeClub: 'Aston Villa', awayClub: 'Everton', homeShort: 'AVL', awayShort: 'EVE', homeScore: 3, awayScore: 0, status: 'finished', minute: null, kickoff: isoFrom(-0.1) },
-  { id: 'md6', homeClub: 'West Ham', awayClub: 'Wolves', homeShort: 'WHU', awayShort: 'WOL', homeScore: 2, awayScore: 2, status: 'finished', minute: null, kickoff: isoFrom(-0.2) },
+  { id: 'md1', homeClub: 'Raja Casablanca', awayClub: 'Wydad AC', homeShort: 'RCA', awayShort: 'WAC', homeScore: 1, awayScore: 1, status: 'live', minute: 67, kickoff: null },
+  { id: 'md2', homeClub: 'AS FAR', awayClub: 'RS Berkane', homeShort: 'FAR', awayShort: 'RSB', homeScore: 2, awayScore: 0, status: 'live', minute: 54, kickoff: null },
+  { id: 'md3', homeClub: 'FUS Rabat', awayClub: 'Maghreb Fès', homeShort: 'FUS', awayShort: 'MAS', homeScore: null, awayScore: null, status: 'upcoming', minute: null, kickoff: isoFrom(0.12) },
+  { id: 'md4', homeClub: 'Hassania Agadir', awayClub: 'Olympique Safi', homeShort: 'HUS', awayShort: 'OCS', homeScore: null, awayScore: null, status: 'upcoming', minute: null, kickoff: isoFrom(0.22) },
+  { id: 'md5', homeClub: 'Moghreb Tétouan', awayClub: 'Difaâ El Jadida', homeShort: 'MAT', awayShort: 'DHJ', homeScore: 1, awayScore: 2, status: 'finished', minute: null, kickoff: isoFrom(-0.1) },
+  { id: 'md6', homeClub: 'Chabab Mohammédia', awayClub: 'Mouloudia Oujda', homeShort: 'CHM', awayShort: 'MCO', homeScore: 0, awayScore: 0, status: 'finished', minute: null, kickoff: isoFrom(-0.2) },
 ]
 
 export interface PerformerRow {

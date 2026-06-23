@@ -61,7 +61,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
         {/* Headline + highlights */}
         <div className="relative z-10">
           <h1 className="text-3xl font-bold leading-tight">
-            Run the world's most exciting fantasy football league.
+            Run Morocco&apos;s most exciting Botola Pro fantasy league.
           </h1>
           <p className="mt-3 max-w-md text-white/70">
             One console for your players, scoring, content and community.

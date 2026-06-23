@@ -137,7 +137,7 @@ function GameplaySection() {
             onChange={(e) => setSquadSize(e.target.value)}
           />
           <Input
-            label="Budget cap (£M)"
+            label="Budget cap (M DH)"
             name="budget-cap"
             type="number"
             min={1}

@@ -267,13 +267,13 @@ export function UserDetailPage() {
                 <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
                   <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Squad Value</p>
                   <p className="mt-0.5 text-xl font-bold text-slate-900">
-                    £{userTeam.squadValue.toFixed(1)}m
+                    DH {userTeam.squadValue.toFixed(1)}M
                   </p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
                   <p className="text-xs font-medium uppercase tracking-wide text-slate-400">In the Bank</p>
                   <p className="mt-0.5 text-xl font-bold text-slate-900">
-                    £{userTeam.budget.toFixed(1)}m
+                    DH {userTeam.budget.toFixed(1)}M
                   </p>
                 </div>
               </div>

@@ -95,9 +95,9 @@ export function LoginPage() {
 
       <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-3 text-center text-xs text-slate-500">
         <span className="font-medium text-slate-600">Demo:</span> any password works. Try{' '}
-        <code className="rounded bg-white px-1 py-0.5 text-primary-700">sophia@botolago.app</code>{' '}
+        <code className="rounded bg-white px-1 py-0.5 text-primary-700">salma@botolago.app</code>{' '}
         (Admin) or{' '}
-        <code className="rounded bg-white px-1 py-0.5 text-primary-700">mei@botolago.app</code>{' '}
+        <code className="rounded bg-white px-1 py-0.5 text-primary-700">imane@botolago.app</code>{' '}
         (Analyst) to see roles.
       </div>
     </AuthLayout>
