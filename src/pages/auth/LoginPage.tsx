@@ -18,7 +18,7 @@ export function LoginPage() {
   const toast = useToast()
   const [login, { isLoading }] = useLoginMutation()
 
-  const [email, setEmail] = useState('binarybards27@gmail.com')
+  const [email, setEmail] = useState('riad@botolago.app')
   const [password, setPassword] = useState('demo1234')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -94,11 +94,13 @@ export function LoginPage() {
       </p>
 
       <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-3 text-center text-xs text-slate-500">
-        <span className="font-medium text-slate-600">Demo:</span> any password works. Try{' '}
+        <span className="font-medium text-slate-600">Demo:</span> any password works. You're set up as{' '}
+        <code className="rounded bg-white px-1 py-0.5 text-primary-700">riad@botolago.app</code>{' '}
+        (Super Admin). Try{' '}
         <code className="rounded bg-white px-1 py-0.5 text-primary-700">salma@botolago.app</code>{' '}
         (Admin) or{' '}
         <code className="rounded bg-white px-1 py-0.5 text-primary-700">imane@botolago.app</code>{' '}
-        (Analyst) to see roles.
+        (Analyst) for other roles.
       </div>
     </AuthLayout>
   )

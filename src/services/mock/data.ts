@@ -458,7 +458,7 @@ export const admins: AdminUser[] = [
   {
     id: 'adm_1',
     name: 'Riad El Mansouri',
-    email: 'binarybards27@gmail.com',
+    email: 'riad@botolago.app',
     role: 'super_admin',
     roleName: 'Super Admin',
     permissions: '*',

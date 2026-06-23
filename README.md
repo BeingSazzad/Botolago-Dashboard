@@ -49,7 +49,7 @@ which role) you sign in as:
 
 | Email                       | Role          | What they can do                          |
 | --------------------------- | ------------- | ----------------------------------------- |
-| `binarybards27@gmail.com`   | Super Admin   | Everything (wildcard `*`)                 |
+| `riad@botolago.app`         | Super Admin   | Everything (wildcard `*`)                 |
 | `sophia@botolago.app`      | Admin         | Football, users & content (no admin mgmt) |
 | `daniel@botolago.app`      | Content Editor| CMS / FAQ + read-only football            |
 | `mei@botolago.app`         | Analyst       | Read-only across the board                |
