@@ -7,31 +7,23 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, label, id, checked, ...props }, ref) => {
+  ({ className, label, id, ...props }, ref) => {
     const checkboxId = id ?? props.name
     return (
       <label htmlFor={checkboxId} className="inline-flex cursor-pointer items-center gap-2">
         <span className="relative inline-flex">
-          <input
-            ref={ref}
-            id={checkboxId}
-            type="checkbox"
-            checked={checked}
-            className="peer sr-only"
-            {...props}
-          />
+          <input ref={ref} id={checkboxId} type="checkbox" className="peer sr-only" {...props} />
           <span
             className={cn(
               'flex h-[18px] w-[18px] items-center justify-center rounded border border-slate-300 bg-white transition-colors',
               'peer-checked:border-primary-600 peer-checked:bg-primary-600',
               'peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500/40',
+              // Tick is driven by the input's checked state (works for controlled + defaultChecked).
+              '[&_svg]:opacity-0 peer-checked:[&_svg]:opacity-100',
               className,
             )}
           >
-            <Check
-              className={cn('h-3 w-3 text-white', checked ? 'opacity-100' : 'opacity-0')}
-              strokeWidth={3}
-            />
+            <Check className="h-3 w-3 text-white transition-opacity" strokeWidth={3} />
           </span>
         </span>
         {label && <span className="text-sm text-slate-700">{label}</span>}
