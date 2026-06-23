@@ -3,7 +3,7 @@ import { Pencil, Star, Trophy, PoundSterling, Users } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { PermissionGate } from '@/components/shared/PermissionGate'
 import { Avatar } from '@/components/shared/Avatar'
-import { StatusBadge, PositionBadge } from '@/components/shared/StatusBadge'
+import { PlayerStatusBadge, PositionBadge } from '@/components/shared/StatusBadge'
 import { StatCard } from '@/components/shared/StatCard'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
@@ -75,7 +75,7 @@ export function PlayerDetailPage() {
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-xl font-bold text-slate-900">{player.name}</h2>
               <PositionBadge position={player.position} />
-              <StatusBadge status={player.status} />
+              <PlayerStatusBadge status={player.status} />
             </div>
             <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-500">
               <span>

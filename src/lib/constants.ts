@@ -2,6 +2,7 @@ import type {
   AdminRole,
   EntityStatus,
   Permission,
+  PlayerStatus,
   Position,
   SelectOption,
 } from '@/types/common.types'
@@ -106,7 +107,7 @@ export const POSITION_META: Record<Position, { short: string; tone: string }> = 
   Goalkeeper: { short: 'GK', tone: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' },
 }
 
-/** Status -> badge variant mapping. */
+/** User/entity status -> badge variant mapping. */
 export const STATUS_META: Record<EntityStatus, { label: string; variant: string }> = {
   active: { label: 'Active', variant: 'success' },
   inactive: { label: 'Inactive', variant: 'neutral' },
@@ -114,6 +115,18 @@ export const STATUS_META: Record<EntityStatus, { label: string; variant: string 
   banned: { label: 'Banned', variant: 'danger' },
   pending: { label: 'Pending', variant: 'info' },
 }
+
+/** Player availability status -> badge variant mapping (from the data feed). */
+export const PLAYER_STATUS_META: Record<PlayerStatus, { label: string; variant: string }> = {
+  available: { label: 'Available', variant: 'success' },
+  doubtful: { label: 'Doubtful', variant: 'warning' },
+  injured: { label: 'Injured', variant: 'danger' },
+  suspended: { label: 'Suspended', variant: 'info' },
+}
+
+export const PLAYER_STATUS_OPTIONS: SelectOption<PlayerStatus>[] = (
+  Object.keys(PLAYER_STATUS_META) as PlayerStatus[]
+).map((s) => ({ label: PLAYER_STATUS_META[s].label, value: s }))
 
 /** Premier-League-style club set used by the mock data + selects. */
 export const CLUBS: { name: string; short: string }[] = [

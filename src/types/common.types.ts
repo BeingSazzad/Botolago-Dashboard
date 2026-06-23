@@ -6,6 +6,9 @@ export type Position = 'Forward' | 'Midfielder' | 'Defender' | 'Goalkeeper'
 
 export type EntityStatus = 'active' | 'inactive' | 'suspended' | 'banned' | 'pending'
 
+/** Player availability — sourced from the data feed (injuries/suspensions). */
+export type PlayerStatus = 'available' | 'injured' | 'suspended' | 'doubtful'
+
 export type FixtureStatus = 'scheduled' | 'live' | 'finished' | 'postponed'
 
 export type GameweekStatus = 'upcoming' | 'live' | 'finished'

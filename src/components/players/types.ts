@@ -1,4 +1,4 @@
-import type { EntityStatus, ID, MatchStats, Position } from '@/types/common.types'
+import type { ID, MatchStats, PlayerStatus, Position } from '@/types/common.types'
 
 export interface Player {
   id: ID
@@ -16,7 +16,7 @@ export interface Player {
   rating: number
   /** Number of fantasy squads that own this player (%). */
   ownership: number
-  status: EntityStatus
+  status: PlayerStatus
   avatarUrl?: string
   /** Most recent match stat line (drives the score). */
   lastStats: MatchStats

@@ -5,7 +5,6 @@
 export const ROUTES = {
   // Auth
   login: '/login',
-  register: '/register',
 
   // App
   dashboard: '/',
@@ -13,12 +12,10 @@ export const ROUTES = {
 
   // Football management
   players: '/players',
-  playerNew: '/players/new',
   playerDetail: (id: string | number = ':id') => `/players/${id}`,
   scoring: '/scoring',
 
   fixtures: '/fixtures',
-  fixtureNew: '/fixtures/new',
   fixtureDetail: (id: string | number = ':id') => `/fixtures/${id}`,
   gameweeks: '/gameweeks',
   leaderboard: '/leaderboard',
@@ -32,7 +29,6 @@ export const ROUTES = {
   // Content
   cms: '/cms',
   cmsPage: (slug: string = ':slug') => `/cms/${slug}`,
-  faq: '/cms/faq',
 
   // Admin
   admins: '/admins',

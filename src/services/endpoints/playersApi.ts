@@ -2,12 +2,18 @@ import type { Player, PlayerFormValues } from '@/components/players/types'
 import { computeRating } from '@/lib/scoring'
 import { api } from '@/services/api'
 import { players as seed } from '@/services/mock/data'
-import { mockResult, nextId, paginate } from '@/services/mock/helpers'
+import { mockResult, paginate } from '@/services/mock/helpers'
 import type { ListResponse } from '@/types/api.types'
 import type { ID, QueryParams } from '@/types/common.types'
 
-// Mutable in-session store.
-let store: Player[] = [...seed]
+/**
+ * Players are sourced from the external sports data feed (roster + match stats)
+ * — admins do NOT create or delete them. Only fantasy-owned fields (price,
+ * availability) and manual stat corrections are editable via `updatePlayer`.
+ */
+
+// In-session store (rows are updated in place; never created/deleted by admins).
+const store: Player[] = [...seed]
 
 export const playersApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -28,23 +34,6 @@ export const playersApi = api.injectEndpoints({
       providesTags: (_r, _e, id) => [{ type: 'Player', id }],
     }),
 
-    createPlayer: build.mutation<Player, PlayerFormValues>({
-      queryFn: (values) => {
-        const { scoreOutOf10 } = computeRating(values.position, values.lastStats)
-        const player: Player = {
-          ...values,
-          id: nextId('pl'),
-          totalPoints: 0,
-          rating: scoreOutOf10,
-          ownership: 0,
-          createdAt: new Date().toISOString(),
-        }
-        store = [player, ...store]
-        return mockResult(player)
-      },
-      invalidatesTags: [{ type: 'Player', id: 'LIST' }],
-    }),
-
     updatePlayer: build.mutation<Player, { id: ID; changes: Partial<PlayerFormValues> }>({
       queryFn: ({ id, changes }) => {
         const idx = store.findIndex((p) => p.id === id)
@@ -57,21 +46,11 @@ export const playersApi = api.injectEndpoints({
       },
       invalidatesTags: (_r, _e, { id }) => [{ type: 'Player', id }, { type: 'Player', id: 'LIST' }],
     }),
-
-    deletePlayer: build.mutation<{ id: ID }, ID>({
-      queryFn: (id) => {
-        store = store.filter((p) => p.id !== id)
-        return mockResult({ id })
-      },
-      invalidatesTags: [{ type: 'Player', id: 'LIST' }],
-    }),
   }),
 })
 
 export const {
   useGetPlayersQuery,
   useGetPlayerQuery,
-  useCreatePlayerMutation,
   useUpdatePlayerMutation,
-  useDeletePlayerMutation,
 } = playersApi

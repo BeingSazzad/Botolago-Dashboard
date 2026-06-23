@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { AuthLayout } from '@/components/auth/components/AuthLayout'
 import { setCredentials } from '@/components/auth/authSlice'
@@ -90,10 +90,7 @@ export function LoginPage() {
       </form>
 
       <p className="mt-6 text-center text-sm text-slate-500">
-        Don't have an account?{' '}
-        <Link to={ROUTES.register} className="font-semibold text-primary-600 hover:text-primary-700">
-          Request access
-        </Link>
+        Admin access is invite-only. Contact a Super Admin to be added.
       </p>
 
       <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-3 text-center text-xs text-slate-500">

@@ -5,7 +5,6 @@ import { PrivateRoute } from './PrivateRoute'
 
 // Auth
 import { LoginPage } from '@/pages/auth/LoginPage'
-import { RegisterPage } from '@/pages/auth/RegisterPage'
 // Dashboard
 import { DashboardPage } from '@/pages/dashboard/DashboardPage'
 import { AnalyticsPage } from '@/pages/dashboard/AnalyticsPage'
@@ -39,7 +38,6 @@ const protect = (element: React.ReactNode, permission?: Parameters<typeof Privat
 
 export const router = createBrowserRouter([
   { path: ROUTES.login, element: <LoginPage /> },
-  { path: ROUTES.register, element: <RegisterPage /> },
   {
     path: '/',
     element: <PrivateRoute><AdminLayout /></PrivateRoute>,
@@ -48,7 +46,6 @@ export const router = createBrowserRouter([
       { path: 'analytics', element: protect(<AnalyticsPage />, 'dashboard.view') },
 
       { path: 'players', element: protect(<PlayersPage />, 'players.view') },
-      { path: 'players/new', element: protect(<PlayerFormPage />, 'players.manage') },
       { path: 'players/:id', element: protect(<PlayerDetailPage />, 'players.view') },
       { path: 'players/:id/edit', element: protect(<PlayerFormPage />, 'players.manage') },
       { path: 'scoring', element: protect(<ScoringPage />, 'scoring.manage') },

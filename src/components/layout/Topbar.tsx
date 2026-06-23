@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { Bell, LogOut, Menu, Search, Settings, User } from 'lucide-react'
+import { Bell, LogOut, Menu, Settings, User } from 'lucide-react'
+import { Logo } from '@/components/shared/Logo'
 import { Avatar } from '@/components/shared/Avatar'
 import { Dropdown } from '@/components/ui/Dropdown'
 import { ROUTES } from '@/constants/routes'
@@ -22,13 +23,9 @@ export function Topbar() {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Global search */}
-      <div className="relative hidden max-w-md flex-1 md:block">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-        <input
-          placeholder="Search players, users, fixtures…"
-          className="h-9 w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-primary-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-        />
+      {/* Brand (mobile only — the sidebar shows it on desktop) */}
+      <div className="lg:hidden">
+        <Logo compact />
       </div>
 
       <div className="ml-auto flex items-center gap-1.5">

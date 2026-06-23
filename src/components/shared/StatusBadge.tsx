@@ -1,11 +1,21 @@
 import { Badge, type BadgeVariant } from '@/components/ui/Badge'
-import { POSITION_META, STATUS_META } from '@/lib/constants'
-import type { EntityStatus, Position } from '@/types/common.types'
+import { PLAYER_STATUS_META, POSITION_META, STATUS_META } from '@/lib/constants'
+import type { EntityStatus, PlayerStatus, Position } from '@/types/common.types'
 import { cn } from '@/lib/utils'
 
-/** Status pill driven by the shared STATUS_META table. */
+/** User/entity status pill driven by the shared STATUS_META table. */
 export function StatusBadge({ status }: { status: EntityStatus }) {
   const meta = STATUS_META[status]
+  return (
+    <Badge variant={meta.variant as BadgeVariant} dot>
+      {meta.label}
+    </Badge>
+  )
+}
+
+/** Player availability pill (Available / Doubtful / Injured / Suspended). */
+export function PlayerStatusBadge({ status }: { status: PlayerStatus }) {
+  const meta = PLAYER_STATUS_META[status]
   return (
     <Badge variant={meta.variant as BadgeVariant} dot>
       {meta.label}

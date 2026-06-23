@@ -5,7 +5,7 @@ import type { Player } from '@/components/players/types'
 import type { FantasyTeam, FantasyTeamDetail, SquadPlayer, User } from '@/components/users/types'
 import { CLUBS, POSITIONS } from '@/lib/constants'
 import { computeRating } from '@/lib/scoring'
-import type { EntityStatus, MatchStats, Position } from '@/types/common.types'
+import type { EntityStatus, MatchStats, PlayerStatus, Position } from '@/types/common.types'
 
 /* ------------------------------------------------------------------ */
 /* Seeded PRNG — keeps the demo data stable between reloads.           */
@@ -60,7 +60,15 @@ function randStats(position: Position): MatchStats {
   }
 }
 
-const STATUSES: EntityStatus[] = ['active', 'active', 'active', 'inactive', 'suspended']
+const PLAYER_STATUSES: PlayerStatus[] = [
+  'available',
+  'available',
+  'available',
+  'available',
+  'doubtful',
+  'injured',
+  'suspended',
+]
 
 export const players: Player[] = Array.from({ length: 48 }).map((_, i) => {
   const position = POSITIONS[i % POSITIONS.length] as Position
@@ -82,7 +90,7 @@ export const players: Player[] = Array.from({ length: 48 }).map((_, i) => {
     totalPoints: randInt(20, 280),
     rating: scoreOutOf10,
     ownership: Number(rand(0.4, 62).toFixed(1)),
-    status: pick(STATUSES),
+    status: pick(PLAYER_STATUSES),
     lastStats: stats,
     createdAt: isoFrom(-randInt(30, 320)),
   }
@@ -94,6 +102,7 @@ export const players: Player[] = Array.from({ length: 48 }).map((_, i) => {
 const TEAM_ADJ = ['Royal', 'Atomic', 'Phantom', 'Iron', 'Crimson', 'Golden', 'Mighty', 'Electric']
 const TEAM_NOUN = ['Strikers', 'Rovers', 'Galaxy', 'Warriors', 'United', 'Dynamos', 'Kings', 'Wanderers']
 const FORMATIONS = ['4-4-2', '4-3-3', '3-5-2', '3-4-3', '5-3-2', '4-5-1']
+const USER_STATUSES: EntityStatus[] = ['active', 'active', 'active', 'inactive', 'suspended', 'banned']
 
 export const users: User[] = Array.from({ length: 60 }).map((_, i) => {
   const first = pick(FIRST)
@@ -107,7 +116,7 @@ export const users: User[] = Array.from({ length: 60 }).map((_, i) => {
     username,
     teamName: `${pick(TEAM_ADJ)} ${pick(TEAM_NOUN)}`,
     country: pick(COUNTRIES),
-    status: pick(STATUSES),
+    status: pick(USER_STATUSES),
     totalPoints: randInt(120, 2200),
     rank: i + 1,
     leagues: randInt(0, 8),

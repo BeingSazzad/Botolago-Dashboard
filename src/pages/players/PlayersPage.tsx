@@ -1,35 +1,31 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Eye, Pencil, Trash2, MoreHorizontal } from 'lucide-react'
+import { Eye, MoreHorizontal, Pencil, RefreshCw } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { PermissionGate } from '@/components/shared/PermissionGate'
 import { SearchInput } from '@/components/shared/SearchInput'
 import { Avatar } from '@/components/shared/Avatar'
-import { StatusBadge, PositionBadge } from '@/components/shared/StatusBadge'
+import { PlayerStatusBadge, PositionBadge } from '@/components/shared/StatusBadge'
 import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
 import { Select } from '@/components/ui/Select'
 import { DataTable, type Column } from '@/components/ui/Table'
 import { Dropdown } from '@/components/ui/Dropdown'
-import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { Pagination } from '@/components/ui/Pagination'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useToast } from '@/hooks/useToast'
 import { useAuth } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
-import { POSITION_OPTIONS } from '@/lib/constants'
-import type { Position, EntityStatus, SelectOption } from '@/types/common.types'
-import { useGetPlayersQuery, useDeletePlayerMutation } from '@/services/endpoints/playersApi'
+import { POSITION_OPTIONS, PLAYER_STATUS_OPTIONS } from '@/lib/constants'
+import type { Position, PlayerStatus, SelectOption } from '@/types/common.types'
+import { useGetPlayersQuery } from '@/services/endpoints/playersApi'
 import type { Player } from '@/components/players/types'
 
 const PAGE_SIZE = 15
 
 const STATUS_OPTIONS: SelectOption<string>[] = [
   { label: 'All statuses', value: 'all' },
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-  { label: 'Suspended', value: 'suspended' },
-  { label: 'Banned', value: 'banned' },
-  { label: 'Pending', value: 'pending' },
+  ...PLAYER_STATUS_OPTIONS,
 ]
 
 const POSITION_FILTER_OPTIONS: SelectOption<string>[] = [
@@ -43,16 +39,14 @@ export function PlayersPage() {
   const { can } = useAuth()
   const canManage = can('players.manage')
 
-  // Filters / sort state
   const [searchRaw, setSearchRaw] = useState('')
   const [positionFilter, setPositionFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [page, setPage] = useState(1)
   const [sortBy, setSortBy] = useState<string>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-
-  // Delete state
-  const [toDelete, setToDelete] = useState<Player | null>(null)
+  const [syncing, setSyncing] = useState(false)
+  const [lastSynced, setLastSynced] = useState('just now')
 
   const search = useDebounce(searchRaw, 350)
 
@@ -61,13 +55,12 @@ export function PlayersPage() {
     pageSize: PAGE_SIZE,
     search: search || undefined,
     position: positionFilter !== 'all' ? (positionFilter as Position) : undefined,
-    status: statusFilter !== 'all' ? (statusFilter as EntityStatus) : undefined,
+    status: statusFilter !== 'all' ? (statusFilter as PlayerStatus) : undefined,
     sortBy,
     sortDir,
   }
 
-  const { data, isLoading, isFetching } = useGetPlayersQuery(queryParams)
-  const [deletePlayer, { isLoading: isDeleting }] = useDeletePlayerMutation()
+  const { data, isLoading, isFetching, refetch } = useGetPlayersQuery(queryParams)
 
   const players = data?.items ?? []
   const total = data?.total ?? 0
@@ -97,22 +90,14 @@ export function PlayersPage() {
     setPage(1)
   }
 
-  async function handleDelete() {
-    if (!toDelete) return
+  async function handleSync() {
+    setSyncing(true)
     try {
-      await deletePlayer(toDelete.id).unwrap()
-      toast({
-        variant: 'success',
-        title: 'Player deleted',
-        description: `${toDelete.name} has been removed from the database.`,
-      })
-      setToDelete(null)
-    } catch {
-      toast({
-        variant: 'error',
-        title: 'Delete failed',
-        description: 'An error occurred while deleting the player.',
-      })
+      await refetch()
+      setLastSynced(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }))
+      toast({ variant: 'success', title: 'Players synced', description: 'Latest roster pulled from the data feed.' })
+    } finally {
+      setSyncing(false)
     }
   }
 
@@ -125,8 +110,8 @@ export function PlayersPage() {
         <div className="flex items-center gap-3">
           <Avatar name={row.name} src={row.avatarUrl} size="sm" />
           <div className="min-w-0">
-            <p className="font-medium text-slate-800 truncate">{row.name}</p>
-            <p className="text-xs text-slate-400 truncate">{row.clubShort}</p>
+            <p className="truncate font-medium text-slate-800">{row.name}</p>
+            <p className="truncate text-xs text-slate-400">{row.clubShort}</p>
           </div>
         </div>
       ),
@@ -146,9 +131,7 @@ export function PlayersPage() {
       header: 'Price',
       sortable: true,
       align: 'right',
-      render: (row) => (
-        <span className="font-medium text-slate-700">£{row.price.toFixed(1)}m</span>
-      ),
+      render: (row) => <span className="font-medium text-slate-700">£{row.price.toFixed(1)}m</span>,
     },
     {
       key: 'rating',
@@ -161,8 +144,8 @@ export function PlayersPage() {
             row.rating >= 7
               ? 'font-semibold text-emerald-600'
               : row.rating >= 5
-              ? 'font-semibold text-amber-600'
-              : 'font-semibold text-rose-500'
+                ? 'font-semibold text-amber-600'
+                : 'font-semibold text-rose-500'
           }
         >
           {row.rating.toFixed(1)}
@@ -180,14 +163,12 @@ export function PlayersPage() {
       key: 'ownership',
       header: 'Owned',
       align: 'right',
-      render: (row) => (
-        <span className="text-slate-500">{row.ownership.toFixed(1)}%</span>
-      ),
+      render: (row) => <span className="text-slate-500">{row.ownership.toFixed(1)}%</span>,
     },
     {
       key: 'status',
-      header: 'Status',
-      render: (row) => <StatusBadge status={row.status} />,
+      header: 'Availability',
+      render: (row) => <PlayerStatusBadge status={row.status} />,
     },
     {
       key: '_actions',
@@ -215,15 +196,9 @@ export function PlayersPage() {
             ...(canManage
               ? [
                   {
-                    label: 'Edit',
+                    label: 'Manage',
                     icon: <Pencil className="h-4 w-4" />,
                     onClick: () => navigate(`/players/${row.id}/edit`),
-                  },
-                  {
-                    label: 'Delete',
-                    icon: <Trash2 className="h-4 w-4" />,
-                    destructive: true,
-                    onClick: () => setToDelete(row),
                   },
                 ]
               : []),
@@ -237,26 +212,32 @@ export function PlayersPage() {
     <div>
       <PageHeader
         title="Players"
-        description="Manage your football players, stats, and valuations."
+        description="Player roster and match stats are synced from the sports data feed."
         actions={
           <PermissionGate permission="players.manage">
             <Button
-              leftIcon={<Plus className="h-4 w-4" />}
-              onClick={() => navigate(ROUTES.playerNew)}
+              variant="outline"
+              leftIcon={<RefreshCw className={syncing ? 'h-4 w-4 animate-spin' : 'h-4 w-4'} />}
+              onClick={handleSync}
+              loading={syncing}
             >
-              Add player
+              Sync from feed
             </Button>
           </PermissionGate>
         }
       />
 
+      {/* Feed status strip */}
+      <div className="mb-4 flex items-center gap-2 text-sm">
+        <Badge variant="success" dot>
+          Live feed connected
+        </Badge>
+        <span className="text-slate-400">Last synced: {lastSynced}</span>
+      </div>
+
       {/* Toolbar */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
-        <SearchInput
-          value={searchRaw}
-          onChange={handleSearchChange}
-          placeholder="Search players…"
-        />
+        <SearchInput value={searchRaw} onChange={handleSearchChange} placeholder="Search players…" />
         <div className="w-44">
           <Select
             options={POSITION_FILTER_OPTIONS}
@@ -270,7 +251,7 @@ export function PlayersPage() {
             options={STATUS_OPTIONS}
             value={statusFilter}
             onChange={(e) => handleStatusChange(e.target.value)}
-            aria-label="Filter by status"
+            aria-label="Filter by availability"
           />
         </div>
       </div>
@@ -291,25 +272,8 @@ export function PlayersPage() {
 
       {/* Pagination */}
       {total > 0 && (
-        <Pagination
-          page={page}
-          pageSize={PAGE_SIZE}
-          total={total}
-          onPageChange={setPage}
-        />
+        <Pagination page={page} pageSize={PAGE_SIZE} total={total} onPageChange={setPage} />
       )}
-
-      {/* Delete confirmation */}
-      <ConfirmDialog
-        open={!!toDelete}
-        onClose={() => setToDelete(null)}
-        onConfirm={handleDelete}
-        title="Delete player"
-        message={`Are you sure you want to delete ${toDelete?.name ?? 'this player'}? This action cannot be undone.`}
-        confirmLabel="Delete"
-        destructive
-        loading={isDeleting}
-      />
     </div>
   )
 }
