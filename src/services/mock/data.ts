@@ -367,6 +367,7 @@ const NEWS_IMG = (id: string) =>
 export const newsPosts: NewsPost[] = [
   {
     id: 'news_1',
+    source: 'admin',
     title: 'Raja Casablanca clinch derby thriller against Wydad',
     slug: 'raja-clinch-derby-thriller',
     excerpt: 'A late winner settles a tense Casablanca derby as Raja edge Wydad in front of a packed stadium.',
@@ -380,6 +381,7 @@ export const newsPosts: NewsPost[] = [
   },
   {
     id: 'news_2',
+    source: 'feed',
     title: 'AS FAR extend lead at the top of Botola Pro 1',
     slug: 'as-far-extend-lead',
     excerpt: 'The Rabat side make it five wins in a row to open up a commanding gap at the summit.',
@@ -393,6 +395,7 @@ export const newsPosts: NewsPost[] = [
   },
   {
     id: 'news_3',
+    source: 'admin',
     title: 'Soufiane Rahimi linked with a summer move',
     slug: 'rahimi-summer-move',
     excerpt: 'The prolific forward is attracting interest from abroad after another standout campaign.',
@@ -406,6 +409,7 @@ export const newsPosts: NewsPost[] = [
   },
   {
     id: 'news_4',
+    source: 'feed',
     title: 'RS Berkane gear up for CAF Confederation Cup',
     slug: 'berkane-caf-confederation',
     excerpt: 'Berkane turn their attention to continental action with a strong squad available.',
@@ -419,6 +423,7 @@ export const newsPosts: NewsPost[] = [
   },
   {
     id: 'news_5',
+    source: 'feed',
     title: 'Botola Pro 1 announces new VAR rollout',
     slug: 'botola-var-rollout',
     excerpt: 'The league confirms expanded VAR coverage across all top-flight fixtures from next round.',
@@ -432,6 +437,7 @@ export const newsPosts: NewsPost[] = [
   },
   {
     id: 'news_6',
+    source: 'admin',
     title: 'Hassania Agadir confirm key striker returns from injury',
     slug: 'hassania-striker-returns',
     excerpt: 'A welcome boost for Agadir as their forward is passed fit ahead of a busy schedule.',

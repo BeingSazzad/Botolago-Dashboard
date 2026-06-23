@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ImagePlus, Newspaper, Upload } from 'lucide-react'
+import { Newspaper } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { LoadingState } from '@/components/ui/Spinner'
+import { ImageUpload } from '@/components/shared/ImageUpload'
 import { useToast } from '@/hooks/useToast'
 import { useAuth } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
@@ -74,7 +75,6 @@ export function NewsEditorPage() {
   const navigate = useNavigate()
   const toast = useToast()
   const { user } = useAuth()
-  const fileRef = useRef<HTMLInputElement>(null)
 
   const { data: existing, isLoading } = useGetNewsPostQuery(id ?? '', { skip: !isEdit })
   const [savePost, { isLoading: isSaving }] = useSaveNewsPostMutation()
@@ -87,6 +87,7 @@ export function NewsEditorPage() {
     coverImage: '',
     category: 'League News',
     status: 'draft',
+    source: 'admin',
     author: user?.name ?? 'Admin',
     publishedAt: new Date().toISOString(),
   })
@@ -102,22 +103,6 @@ export function NewsEditorPage() {
 
   function set<K extends keyof NewsFormValues>(key: K, value: NewsFormValues[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
-  }
-
-  function handleCoverUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      toast({ variant: 'error', title: 'Invalid file', description: 'Please choose an image.' })
-      return
-    }
-    if (file.size > 512 * 1024) {
-      toast({ variant: 'error', title: 'Image too large', description: 'Keep the cover under 512 KB.' })
-      return
-    }
-    const reader = new FileReader()
-    reader.onload = () => set('coverImage', String(reader.result))
-    reader.readAsDataURL(file)
   }
 
   async function handleSave() {
@@ -205,21 +190,14 @@ export function NewsEditorPage() {
 
           <Card>
             <CardHeader title="Cover image" />
-            <CardContent className="space-y-3">
-              <Input
-                label="Image URL"
+            <CardContent>
+              <ImageUpload
+                variant="wide"
                 value={form.coverImage}
-                onChange={(e) => set('coverImage', e.target.value)}
-                placeholder="https://… or upload below"
-                leftIcon={<ImagePlus className="h-4 w-4" />}
+                onChange={(v) => set('coverImage', v ?? '')}
+                label="Cover image"
+                hint="PNG/JPG, under 512 KB"
               />
-              <div>
-                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
-                <Button variant="outline" size="sm" leftIcon={<Upload className="h-4 w-4" />} onClick={() => fileRef.current?.click()}>
-                  Upload image
-                </Button>
-                <span className="ml-2 text-xs text-slate-400">PNG/JPG, under 512 KB</span>
-              </div>
             </CardContent>
           </Card>
 
@@ -250,11 +228,15 @@ export function NewsEditorPage() {
             )}
           </div>
           <CardContent>
-            <div className="mb-2 flex items-center gap-2">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <Badge variant="primary">{form.category}</Badge>
               <Badge variant={form.status === 'published' ? 'success' : form.status === 'draft' ? 'warning' : 'neutral'}>
                 {form.status}
               </Badge>
+              {form.source === 'admin'
+                ? <Badge variant="primary">By admin</Badge>
+                : <Badge variant="info" dot>From feed</Badge>
+              }
             </div>
             <h2 className="text-xl font-bold text-slate-900">{form.title || 'Untitled post'}</h2>
             {form.excerpt && <p className="mt-1 text-sm text-slate-500">{form.excerpt}</p>}

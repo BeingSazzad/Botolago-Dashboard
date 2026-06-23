@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   Bell,
   Building2,
@@ -7,10 +7,9 @@ import {
   Palette,
   Plug,
   ShieldCheck,
-  Upload,
-  X,
 } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { ImageUpload } from '@/components/shared/ImageUpload'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
@@ -325,34 +324,6 @@ function BrandingSection() {
   const branding = useAppSelector((s) => s.branding)
 
   const [localName, setLocalName] = useState(branding.appName)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  // ── Logo upload ──────────────────────────────────────────────────────────────
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      toast({ variant: 'error', title: 'Invalid file', description: 'Please upload an image file (PNG, JPG, SVG, etc.).' })
-      e.target.value = ''
-      return
-    }
-
-    const MAX_BYTES = 512 * 1024 // 512 KB
-    if (file.size > MAX_BYTES) {
-      toast({ variant: 'error', title: 'File too large', description: 'Logo must be under 512 KB. Please resize the image and try again.' })
-      e.target.value = ''
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      dispatch(setLogo(reader.result as string))
-      toast({ variant: 'success', title: 'Logo uploaded', description: 'Your new logo is now live across the platform.' })
-    }
-    reader.readAsDataURL(file)
-    e.target.value = ''
-  }
 
   // ── Theme selection ──────────────────────────────────────────────────────────
   const handleThemeSelect = (key: string) => {
@@ -373,13 +344,6 @@ function BrandingSection() {
     toast({ variant: 'info', title: 'Branding reset', description: 'All branding settings have been restored to defaults.' })
   }
 
-  // Derive initials for the "no logo" badge preview
-  const initials = branding.appName
-    .split(' ')
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? '')
-    .join('')
-
   return (
     <Card>
       <CardHeader
@@ -399,56 +363,13 @@ function BrandingSection() {
         />
 
         {/* ── Logo upload ── */}
-        <div>
-          <p className="mb-2 text-sm font-medium text-slate-700">App logo</p>
-          <div className="flex items-start gap-4">
-            {/* Preview box */}
-            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
-              {branding.logo ? (
-                <img
-                  src={branding.logo}
-                  alt="App logo preview"
-                  className="h-full w-full object-contain"
-                />
-              ) : (
-                <span className="text-lg font-bold text-primary-700">{initials}</span>
-              )}
-            </div>
-
-            {/* Upload controls */}
-            <div className="flex flex-col gap-2">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                leftIcon={<Upload className="h-3.5 w-3.5" />}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Upload logo
-              </Button>
-              {branding.logo && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  leftIcon={<X className="h-3.5 w-3.5" />}
-                  onClick={() => {
-                    dispatch(setLogo(null))
-                    toast({ variant: 'info', title: 'Logo removed', description: 'The initials badge will be shown instead.' })
-                  }}
-                >
-                  Remove logo
-                </Button>
-              )}
-              <p className="text-xs text-slate-400">PNG, JPG or SVG — max 512 KB.</p>
-            </div>
-          </div>
-        </div>
+        <ImageUpload
+          variant="square"
+          value={branding.logo}
+          onChange={(v) => dispatch(setLogo(v))}
+          label="App logo"
+          hint="PNG/JPG/SVG, under 512 KB"
+        />
 
         {/* ── Theme colour picker ── */}
         <div>

@@ -17,7 +17,7 @@ import { useToast } from '@/hooks/useToast'
 import { ROUTES } from '@/constants/routes'
 import { cn, formatDate } from '@/lib/utils'
 import type { ContentStatus, SelectOption } from '@/types/common.types'
-import type { NewsPost } from '@/components/news/types'
+import type { NewsPost, NewsSource } from '@/components/news/types'
 import { useGetNewsPostsQuery, useDeleteNewsPostMutation } from '@/services/endpoints/newsApi'
 
 const PAGE_SIZE = 9
@@ -33,6 +33,12 @@ const STATUS_OPTIONS: SelectOption<string>[] = [
   { label: 'Published', value: 'published' },
   { label: 'Draft', value: 'draft' },
   { label: 'Archived', value: 'archived' },
+]
+
+const SOURCE_OPTIONS: SelectOption<string>[] = [
+  { label: 'All sources', value: 'all' },
+  { label: 'From feed', value: 'feed' },
+  { label: 'Admin posts', value: 'admin' },
 ]
 
 /** Cover image with a graceful gradient fallback if the URL fails. */
@@ -62,6 +68,7 @@ export function NewsPage() {
 
   const [searchRaw, setSearchRaw] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [sourceFilter, setSourceFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [toDelete, setToDelete] = useState<NewsPost | null>(null)
 
@@ -72,6 +79,7 @@ export function NewsPage() {
     pageSize: PAGE_SIZE,
     search: search || undefined,
     status: statusFilter !== 'all' ? statusFilter : undefined,
+    source: sourceFilter !== 'all' ? (sourceFilter as NewsSource) : undefined,
   })
   const [deletePost, { isLoading: isDeleting }] = useDeleteNewsPostMutation()
 
@@ -114,6 +122,14 @@ export function NewsPage() {
             aria-label="Filter by status"
           />
         </div>
+        <div className="w-44">
+          <Select
+            options={SOURCE_OPTIONS}
+            value={sourceFilter}
+            onChange={(e) => { setSourceFilter(e.target.value); setPage(1) }}
+            aria-label="Filter by source"
+          />
+        </div>
       </div>
 
       {isLoading || isFetching ? (
@@ -137,9 +153,13 @@ export function NewsPage() {
             <Card key={post.id} className="flex flex-col overflow-hidden">
               <Cover src={post.coverImage} title={post.title} />
               <div className="flex flex-1 flex-col p-4">
-                <div className="mb-2 flex items-center gap-2">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
                   <Badge variant="primary">{post.category}</Badge>
                   <Badge variant={STATUS_VARIANT[post.status]}>{post.status}</Badge>
+                  {post.source === 'feed'
+                    ? <Badge variant="info" dot>From feed</Badge>
+                    : <Badge variant="primary">By admin</Badge>
+                  }
                 </div>
                 <h3 className="line-clamp-2 font-semibold text-slate-900">{post.title}</h3>
                 <p className="mt-1.5 line-clamp-2 text-sm text-slate-500">{post.excerpt}</p>

@@ -15,8 +15,11 @@ export const adminsApi = api.injectEndpoints({
       providesTags: [{ type: 'Admin', id: 'LIST' }],
     }),
 
-    inviteAdmin: build.mutation<AdminUser, { name: string; email: string; role: AdminRoleKey }>({
-      queryFn: ({ name, email, role }) => {
+    inviteAdmin: build.mutation<
+      AdminUser,
+      { name: string; email: string; role: AdminRoleKey; avatarUrl?: string }
+    >({
+      queryFn: ({ name, email, role, avatarUrl }) => {
         const admin: AdminUser = {
           id: nextId('adm'),
           name,
@@ -24,6 +27,7 @@ export const adminsApi = api.injectEndpoints({
           role,
           roleName: roles[role]?.name ?? role,
           permissions: [],
+          avatarUrl,
           status: 'invited',
           lastLoginAt: new Date().toISOString(),
           createdAt: new Date().toISOString(),
