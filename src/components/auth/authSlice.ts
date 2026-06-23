@@ -1,7 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { AdminUser, AuthState } from './types'
 
-const STORAGE_KEY = 'gr_admin_auth'
+// Versioned key — bumping it invalidates any stale persisted session.
+const STORAGE_KEY = 'botola_auth_v2'
 
 function loadInitial(): AuthState {
   try {

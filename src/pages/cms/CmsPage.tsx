@@ -141,8 +141,7 @@ export function CmsPage() {
             <FileText className="h-4 w-4" />
           </span>
           <div className="min-w-0">
-            <p className="font-semibold text-slate-900 truncate">{row.title}</p>
-            <p className="font-mono text-xs text-slate-400 truncate">/{row.slug}</p>
+            <p className="truncate font-semibold text-slate-900">{row.title}</p>
           </div>
         </div>
       ),

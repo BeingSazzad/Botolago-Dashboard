@@ -100,25 +100,24 @@ export function CmsEditorPage() {
   const [savePage, { isLoading: saving }] = useSavePageMutation()
 
   const [title, setTitle] = useState('')
-  const [slug, setSlug] = useState('')
   const [body, setBody] = useState('')
   const [status, setStatus] = useState<ContentStatus>('draft')
 
   useEffect(() => {
     if (page) {
       setTitle(page.title)
-      setSlug(page.slug)
       setBody(page.body)
       setStatus(page.status)
     }
   }, [page])
 
   async function handleSave() {
-    const resolvedSlug = isNew ? (slug.trim() || toSlug(title)) : slug
-    if (!resolvedSlug) {
-      toast({ type: 'error', title: 'Slug is required' })
+    if (!title.trim()) {
+      toast({ type: 'error', title: 'Title is required' })
       return
     }
+    // Slug is internal: derived from the title for new pages, kept from the route otherwise.
+    const resolvedSlug = isNew ? toSlug(title) : routeSlug
     try {
       await savePage({ slug: resolvedSlug, title, body, status }).unwrap()
       toast({ type: 'success', title: isNew ? 'Page created' : 'Page saved' })
@@ -155,25 +154,9 @@ export function CmsEditorPage() {
                 label="Title"
                 name="title"
                 value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value)
-                  if (isNew && !slug) {
-                    // keep slug in sync while user types, only if they haven't manually set it
-                  }
-                }}
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Terms of Service"
                 required
-              />
-              <Input
-                label="Slug"
-                name="slug"
-                value={isNew ? slug : `/${slug}`}
-                onChange={(e) => {
-                  if (isNew) setSlug(e.target.value.replace(/^\//, ''))
-                }}
-                placeholder={isNew ? 'e.g. terms-of-service (auto-derived if blank)' : undefined}
-                disabled={!isNew}
-                hint={isNew ? 'Leave blank to auto-derive from title.' : 'Slug cannot be changed after creation.'}
               />
               <Select
                 label="Status"
