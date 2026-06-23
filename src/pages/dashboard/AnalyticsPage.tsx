@@ -5,10 +5,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Cell,
   Legend,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -24,13 +21,9 @@ import { PageHeader } from '@/components/layout/PageHeader'
 import { StatCard } from '@/components/shared/StatCard'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
 import { Select } from '@/components/ui/Select'
-import { ProgressBar } from '@/components/ui/ProgressBar'
 import { LoadingState } from '@/components/ui/Spinner'
 import { useGetDashboardQuery } from '@/services/endpoints/dashboardApi'
 import { formatCompact, formatNumber } from '@/lib/utils'
-
-// ─── Colour palette shared across all charts ────────────────────────────────
-const COLORS = ['#1d4ed8', '#10b981', '#f59e0b', '#0ea5e9', '#8b5cf6']
 
 // ─── Axis / grid / tooltip style constants matching DashboardPage exactly ───
 const AXIS_STYLE = { stroke: '#94a3b8', fontSize: 12, tickLine: false, axisLine: false } as const
@@ -57,8 +50,6 @@ const TIME_RANGE_OPTIONS = [
   { label: 'Season', value: 'season' },
 ]
 
-const PAYING_USERS = 9_840
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function AnalyticsPage() {
@@ -67,11 +58,10 @@ export function AnalyticsPage() {
 
   if (isLoading || !data) return <LoadingState label="Loading analytics…" />
 
-  const { stats, signupTrend, positionBreakdown } = data
+  const { stats, signupTrend } = data
 
-  // Derived KPIs from real data
+  // Derived KPI from real data
   const retentionRate = Math.round((stats.activeTeams / stats.totalUsers) * 100)
-  const conversionRate = Math.round((PAYING_USERS / stats.totalUsers) * 1000) / 10
 
   return (
     <div>
@@ -249,94 +239,6 @@ export function AnalyticsPage() {
         </Card>
       </div>
 
-      {/* ── Squad composition + Monetisation snapshot ───────────────────── */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader
-            title="Squad composition"
-            description="Preferred positions by active managers"
-          />
-          <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
-              <PieChart>
-                <Pie
-                  data={positionBreakdown}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={55}
-                  outerRadius={90}
-                  paddingAngle={3}
-                >
-                  {positionBreakdown.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip {...TOOLTIP_STYLE} />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              {positionBreakdown.map((p, i) => (
-                <div key={p.name} className="flex items-center gap-2 text-sm">
-                  <span
-                    className="h-2.5 w-2.5 rounded-full"
-                    style={{ background: COLORS[i % COLORS.length] }}
-                  />
-                  <span className="text-slate-500">{p.name}</span>
-                  <span className="ml-auto font-medium text-slate-700">{p.value}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader
-            title="Monetisation snapshot"
-            description={`Revenue stats · DH ${formatCompact(stats.revenue)} MTD`}
-          />
-          <CardContent className="space-y-5">
-            {[
-              {
-                label: 'MRR',
-                value: `DH ${formatCompact(stats.revenue)}`,
-                sub: `${stats.revenueDelta > 0 ? '+' : ''}${stats.revenueDelta}% vs last month`,
-                pct: Math.min(100, Math.abs(stats.revenueDelta) * 3),
-                color: 'bg-[#1d4ed8]',
-              },
-              {
-                label: 'ARPU',
-                value: `DH ${(stats.revenue / stats.totalUsers).toFixed(2)}`,
-                sub: 'per registered user',
-                pct: 62,
-                color: 'bg-[#10b981]',
-              },
-              {
-                label: 'Paying users',
-                value: formatNumber(PAYING_USERS),
-                sub: `${conversionRate}% of total sign-ups`,
-                pct: conversionRate * 10,
-                color: 'bg-[#8b5cf6]',
-              },
-              {
-                label: 'Avg subscription value',
-                value: `DH ${(stats.revenue / PAYING_USERS).toFixed(2)}`,
-                sub: 'per paying user',
-                pct: 74,
-                color: 'bg-[#f59e0b]',
-              },
-            ].map((item) => (
-              <div key={item.label}>
-                <div className="mb-1 flex items-center justify-between text-sm">
-                  <span className="font-medium text-slate-700">{item.label}</span>
-                  <span className="font-semibold text-slate-900">{item.value}</span>
-                </div>
-                <ProgressBar value={item.pct} barClassName={item.color} />
-                <p className="mt-1 text-xs text-slate-400">{item.sub}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
     </div>
   )
 }

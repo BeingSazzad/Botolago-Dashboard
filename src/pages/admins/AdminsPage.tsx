@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { MoreVertical, UserPlus } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Avatar } from '@/components/shared/Avatar'
-import { ImageUpload } from '@/components/shared/ImageUpload'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
@@ -46,22 +45,15 @@ function InviteModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState<AdminRoleKey>('admin')
-  const [avatar, setAvatar] = useState<string | null>(null)
-
-  const handleClose = () => {
-    setAvatar(null)
-    onClose()
-  }
 
   const handleSubmit = async () => {
     if (!name.trim() || !email.trim()) return
     try {
-      await inviteAdmin({ name: name.trim(), email: email.trim(), role, avatarUrl: avatar ?? undefined }).unwrap()
+      await inviteAdmin({ name: name.trim(), email: email.trim(), role }).unwrap()
       toast({ variant: 'success', title: 'Invitation sent', message: `${name} has been invited.` })
       setName('')
       setEmail('')
       setRole('admin')
-      setAvatar(null)
       onClose()
     } catch {
       toast({ variant: 'error', title: 'Failed to invite admin' })
@@ -71,12 +63,12 @@ function InviteModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       title="Add admin"
       description="Send an invitation to a new team member."
       footer={
         <>
-          <Button variant="outline" onClick={handleClose} disabled={isLoading}>
+          <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancel
           </Button>
           <Button onClick={handleSubmit} loading={isLoading}>
@@ -86,13 +78,6 @@ function InviteModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       }
     >
       <div className="space-y-4">
-        <ImageUpload
-          variant="circle"
-          value={avatar}
-          onChange={setAvatar}
-          label="Avatar (optional)"
-          hint="PNG/JPG, under 512 KB"
-        />
         <Input
           label="Full name"
           name="invite-name"

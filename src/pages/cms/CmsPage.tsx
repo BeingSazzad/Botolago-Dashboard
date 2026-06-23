@@ -249,16 +249,8 @@ export function CmsPage() {
 
       {activeTab === 'pages' && (
         <div>
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4">
             <p className="text-sm text-slate-500">{pages.length} page{pages.length !== 1 ? 's' : ''}</p>
-            <PermissionGate permission="cms.manage">
-              <Button
-                leftIcon={<Plus className="h-4 w-4" />}
-                onClick={() => navigate(ROUTES.cmsPage('new'))}
-              >
-                New page
-              </Button>
-            </PermissionGate>
           </div>
 
           {pagesLoading ? (
@@ -267,14 +259,7 @@ export function CmsPage() {
             <EmptyState
               icon={<FileText className="h-6 w-6" />}
               title="No pages yet"
-              description="Create your first content page to get started."
-              action={
-                <PermissionGate permission="cms.manage">
-                  <Button leftIcon={<Plus className="h-4 w-4" />} onClick={() => navigate(ROUTES.cmsPage('new'))}>
-                    New page
-                  </Button>
-                </PermissionGate>
-              }
+              description="Content pages will appear here."
             />
           ) : (
             <DataTable<CmsPageType>

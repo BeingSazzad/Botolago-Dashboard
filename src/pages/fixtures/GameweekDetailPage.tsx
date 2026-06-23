@@ -55,25 +55,22 @@ export function GameweekDetailPage() {
     {
       key: 'match',
       header: 'Match',
+      align: 'center',
       render: (f) => (
-        <div className="flex items-center gap-3">
-          <div className="flex flex-1 items-center justify-end gap-2 text-right">
-            <span className="truncate text-sm font-semibold text-slate-800">{f.homeClub}</span>
-            <span className="flex h-6 w-9 shrink-0 items-center justify-center rounded bg-slate-100 text-[11px] font-bold text-slate-600">
-              {f.homeShort}
-            </span>
-          </div>
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-sm font-semibold text-slate-800">{f.homeClub}</span>
+          <span className="flex h-6 w-9 shrink-0 items-center justify-center rounded bg-slate-100 text-[11px] font-bold text-slate-600">
+            {f.homeShort}
+          </span>
           <span className="w-16 shrink-0 text-center font-mono text-sm font-bold text-slate-900">
             {f.status === 'scheduled' || f.status === 'postponed'
               ? new Date(f.kickoff).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
               : `${f.homeScore ?? 0}–${f.awayScore ?? 0}`}
           </span>
-          <div className="flex flex-1 items-center gap-2">
-            <span className="flex h-6 w-9 shrink-0 items-center justify-center rounded bg-slate-100 text-[11px] font-bold text-slate-600">
-              {f.awayShort}
-            </span>
-            <span className="truncate text-sm font-semibold text-slate-800">{f.awayClub}</span>
-          </div>
+          <span className="flex h-6 w-9 shrink-0 items-center justify-center rounded bg-slate-100 text-[11px] font-bold text-slate-600">
+            {f.awayShort}
+          </span>
+          <span className="text-sm font-semibold text-slate-800">{f.awayClub}</span>
         </div>
       ),
     },
