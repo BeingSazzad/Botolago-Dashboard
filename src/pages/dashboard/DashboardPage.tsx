@@ -87,10 +87,13 @@ function kickoffTime(iso: string | null) {
 function MatchRow({ m }: { m: MatchdayFixture }) {
   return (
     <div className="flex items-center gap-3 px-5 py-3">
-      <div className="flex flex-1 items-center justify-end gap-2 text-right">
-        <span className="truncate text-sm font-semibold text-slate-800">{m.homeClub}</span>
+      {/* Home — flush left */}
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <ClubTag short={m.homeShort} />
+        <span className="truncate text-sm font-semibold text-slate-800">{m.homeClub}</span>
       </div>
+
+      {/* Score / kickoff — fixed centre column */}
       <div className="flex w-16 shrink-0 flex-col items-center">
         {m.status === 'upcoming' ? (
           <span className="text-xs font-semibold text-slate-400">{kickoffTime(m.kickoff)}</span>
@@ -112,9 +115,11 @@ function MatchRow({ m }: { m: MatchdayFixture }) {
           <span className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-300">Today</span>
         )}
       </div>
-      <div className="flex flex-1 items-center gap-2">
-        <ClubTag short={m.awayShort} />
+
+      {/* Away — flush right */}
+      <div className="flex min-w-0 flex-1 items-center justify-end gap-2 text-right">
         <span className="truncate text-sm font-semibold text-slate-800">{m.awayClub}</span>
+        <ClubTag short={m.awayShort} />
       </div>
     </div>
   )
