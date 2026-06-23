@@ -180,12 +180,7 @@ export function PlayersPage() {
       render: (row) => (
         <Dropdown
           trigger={
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Player actions"
-            >
+            <Button variant="ghost" size="icon" aria-label="Player actions">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           }
@@ -198,7 +193,7 @@ export function PlayersPage() {
             ...(canManage
               ? [
                   {
-                    label: 'Manage',
+                    label: 'Edit',
                     icon: <Pencil className="h-4 w-4" />,
                     onClick: () => navigate(`/players/${row.id}/edit`),
                   },

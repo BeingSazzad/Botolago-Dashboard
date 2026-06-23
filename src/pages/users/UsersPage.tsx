@@ -167,12 +167,7 @@ export function UsersPage() {
         <PermissionGate permission="users.manage">
           <Dropdown
             trigger={
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={(e) => e.stopPropagation()}
-                aria-label="Actions"
-              >
+              <Button variant="ghost" size="icon" aria-label="Actions">
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             }

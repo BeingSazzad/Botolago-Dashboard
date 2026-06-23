@@ -382,7 +382,7 @@ function RoleCard({ role }: { role: AdminRole }) {
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
                 {group.group}
               </p>
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
                 {group.permissions.map((perm) => (
                   <Checkbox
                     key={perm.key}

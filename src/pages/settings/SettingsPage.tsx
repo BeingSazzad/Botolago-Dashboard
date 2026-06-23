@@ -2,7 +2,6 @@ import { useState } from 'react'
 import {
   Bell,
   Building2,
-  Check,
   Gamepad2,
   Palette,
   Plug,
@@ -18,8 +17,7 @@ import { Select } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
 import { useToast } from '@/hooks/useToast'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { resetBranding, setAppName, setLogo, setThemeKey } from '@/store/brandingSlice'
-import { THEME_LIST, applyTheme, DEFAULT_THEME_KEY } from '@/lib/themes'
+import { resetBranding, setAppName, setLogo } from '@/store/brandingSlice'
 
 // ─── Option lists ─────────────────────────────────────────────────────────────
 
@@ -325,13 +323,6 @@ function BrandingSection() {
 
   const [localName, setLocalName] = useState(branding.appName)
 
-  // ── Theme selection ──────────────────────────────────────────────────────────
-  const handleThemeSelect = (key: string) => {
-    applyTheme(key)
-    dispatch(setThemeKey(key))
-  }
-
-  // ── Save / reset ─────────────────────────────────────────────────────────────
   const handleSave = () => {
     dispatch(setAppName(localName.trim() || branding.appName))
     toast({ variant: 'success', title: 'Branding saved', description: 'App name has been updated.' })
@@ -339,9 +330,8 @@ function BrandingSection() {
 
   const handleReset = () => {
     dispatch(resetBranding())
-    applyTheme(DEFAULT_THEME_KEY)
     setLocalName(branding.appName) // optimistic; slice resets to env.appName
-    toast({ variant: 'info', title: 'Branding reset', description: 'All branding settings have been restored to defaults.' })
+    toast({ variant: 'info', title: 'Branding reset', description: 'Branding settings have been restored to defaults.' })
   }
 
   return (
@@ -370,50 +360,6 @@ function BrandingSection() {
           label="App logo"
           hint="PNG/JPG/SVG, under 512 KB"
         />
-
-        {/* ── Theme colour picker ── */}
-        <div>
-          <p className="mb-2 text-sm font-medium text-slate-700">Theme colour</p>
-          <div className="flex flex-wrap gap-3">
-            {THEME_LIST.map((theme) => {
-              const isActive = branding.themeKey === theme.key
-              return (
-                <button
-                  key={theme.key}
-                  type="button"
-                  title={theme.label}
-                  onClick={() => handleThemeSelect(theme.key)}
-                  className={[
-                    'flex flex-col items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium transition-all',
-                    isActive
-                      ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-sm ring-2 ring-primary-400 ring-offset-1'
-                      : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50',
-                  ].join(' ')}
-                >
-                  <span className="relative flex h-6 w-6 items-center justify-center">
-                    <span
-                      className="h-6 w-6 rounded-full shadow-sm"
-                      style={{ background: theme.swatch }}
-                    />
-                    {isActive && (
-                      <Check className="absolute h-3.5 w-3.5 text-white drop-shadow" />
-                    )}
-                  </span>
-                  {theme.label}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* ── Live preview chip ── */}
-        <div>
-          <p className="mb-2 text-sm font-medium text-slate-700">Live preview</p>
-          <div className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 px-4 py-3">
-            <Button size="sm">Primary button</Button>
-            <Badge variant="primary" dot>Active theme</Badge>
-          </div>
-        </div>
 
         {/* ── Footer actions ── */}
         <div className="flex items-center justify-between pt-1">
