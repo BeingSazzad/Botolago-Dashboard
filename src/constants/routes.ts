@@ -29,6 +29,9 @@ export const ROUTES = {
   // Content
   cms: '/cms',
   cmsPage: (slug: string = ':slug') => `/cms/${slug}`,
+  news: '/news',
+  newsNew: '/news/new',
+  newsEdit: (id: string | number = ':id') => `/news/${id}/edit`,
 
   // Admin
   admins: '/admins',

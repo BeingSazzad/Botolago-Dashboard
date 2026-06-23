@@ -11,6 +11,7 @@ import '@/services/endpoints/playersApi'
 import '@/services/endpoints/usersApi'
 import '@/services/endpoints/fixturesApi'
 import '@/services/endpoints/cmsApi'
+import '@/services/endpoints/newsApi'
 import '@/services/endpoints/adminsApi'
 
 export const store = configureStore({

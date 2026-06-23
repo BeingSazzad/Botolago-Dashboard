@@ -19,6 +19,7 @@ export const api = createApi({
     'Gameweek',
     'CmsPage',
     'Faq',
+    'News',
     'Admin',
     'Dashboard',
   ],

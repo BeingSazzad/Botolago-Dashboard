@@ -25,6 +25,8 @@ import { TeamDetailPage } from '@/pages/users/TeamDetailPage'
 // Content
 import { CmsPage } from '@/pages/cms/CmsPage'
 import { CmsEditorPage } from '@/pages/cms/CmsEditorPage'
+import { NewsPage } from '@/pages/news/NewsPage'
+import { NewsEditorPage } from '@/pages/news/NewsEditorPage'
 // Admin
 import { AdminsPage } from '@/pages/admins/AdminsPage'
 import { SettingsPage } from '@/pages/settings/SettingsPage'
@@ -61,6 +63,10 @@ export const router = createBrowserRouter([
 
       { path: 'cms', element: protect(<CmsPage />, 'cms.view') },
       { path: 'cms/:slug', element: protect(<CmsEditorPage />, 'cms.manage') },
+
+      { path: 'news', element: protect(<NewsPage />, 'cms.view') },
+      { path: 'news/new', element: protect(<NewsEditorPage />, 'cms.manage') },
+      { path: 'news/:id/edit', element: protect(<NewsEditorPage />, 'cms.manage') },
 
       { path: 'admins', element: protect(<AdminsPage />, 'admins.manage') },
       { path: 'roles', element: <Navigate to={ROUTES.admins} replace /> },

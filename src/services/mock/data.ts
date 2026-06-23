@@ -1,6 +1,7 @@
 import type { AdminUser } from '@/components/auth/types'
 import type { CmsPage, FaqItem } from '@/components/cms/types'
 import type { Fixture, Gameweek } from '@/components/fixtures/types'
+import type { NewsPost } from '@/components/news/types'
 import type { Player } from '@/components/players/types'
 import type { FantasyTeam, FantasyTeamDetail, SquadPlayer, User } from '@/components/users/types'
 import { CLUBS, POSITIONS } from '@/lib/constants'
@@ -354,6 +355,93 @@ export const faqs: FaqItem[] = [
     category: 'Leagues',
     order: 4,
     status: 'draft',
+  },
+]
+
+/* ------------------------------------------------------------------ */
+/* News / Blog                                                        */
+/* ------------------------------------------------------------------ */
+const NEWS_IMG = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=70`
+
+export const newsPosts: NewsPost[] = [
+  {
+    id: 'news_1',
+    title: 'Raja Casablanca clinch derby thriller against Wydad',
+    slug: 'raja-clinch-derby-thriller',
+    excerpt: 'A late winner settles a tense Casablanca derby as Raja edge Wydad in front of a packed stadium.',
+    body: '# Derby drama\n\nRaja Casablanca secured a dramatic victory in the Casablanca derby thanks to a stoppage-time strike.\n\nThe result tightens the title race at the top of Botola Pro 1.',
+    coverImage: NEWS_IMG('photo-1522778119026-d647f0596c20'),
+    category: 'Match Report',
+    status: 'published',
+    author: 'Salma Bennani',
+    publishedAt: isoFrom(-0.2),
+    updatedAt: isoFrom(-0.2),
+  },
+  {
+    id: 'news_2',
+    title: 'AS FAR extend lead at the top of Botola Pro 1',
+    slug: 'as-far-extend-lead',
+    excerpt: 'The Rabat side make it five wins in a row to open up a commanding gap at the summit.',
+    body: '# Flying high\n\nAS FAR continue their excellent form with another commanding performance.',
+    coverImage: NEWS_IMG('photo-1551958219-acbc608c6377'),
+    category: 'League News',
+    status: 'published',
+    author: 'Youssef Idrissi',
+    publishedAt: isoFrom(-1),
+    updatedAt: isoFrom(-1),
+  },
+  {
+    id: 'news_3',
+    title: 'Soufiane Rahimi linked with a summer move',
+    slug: 'rahimi-summer-move',
+    excerpt: 'The prolific forward is attracting interest from abroad after another standout campaign.',
+    body: '# Transfer buzz\n\nReports suggest several clubs are monitoring the in-form striker ahead of the window.',
+    coverImage: NEWS_IMG('photo-1431324155629-1a6deb1dec8d'),
+    category: 'Transfers',
+    status: 'published',
+    author: 'Salma Bennani',
+    publishedAt: isoFrom(-2),
+    updatedAt: isoFrom(-2),
+  },
+  {
+    id: 'news_4',
+    title: 'RS Berkane gear up for CAF Confederation Cup',
+    slug: 'berkane-caf-confederation',
+    excerpt: 'Berkane turn their attention to continental action with a strong squad available.',
+    body: '# Continental focus\n\nRS Berkane prepare for a crucial continental fixture this weekend.',
+    coverImage: NEWS_IMG('photo-1577223625816-7546f13df25d'),
+    category: 'Continental',
+    status: 'published',
+    author: 'Youssef Idrissi',
+    publishedAt: isoFrom(-3),
+    updatedAt: isoFrom(-3),
+  },
+  {
+    id: 'news_5',
+    title: 'Botola Pro 1 announces new VAR rollout',
+    slug: 'botola-var-rollout',
+    excerpt: 'The league confirms expanded VAR coverage across all top-flight fixtures from next round.',
+    body: '# Technology upgrade\n\nThe federation has confirmed an expanded VAR programme for the league.',
+    coverImage: NEWS_IMG('photo-1493924191705-d3f7d3df7f8f'),
+    category: 'League News',
+    status: 'draft',
+    author: 'Imane Alaoui',
+    publishedAt: isoFrom(-4),
+    updatedAt: isoFrom(-1),
+  },
+  {
+    id: 'news_6',
+    title: 'Hassania Agadir confirm key striker returns from injury',
+    slug: 'hassania-striker-returns',
+    excerpt: 'A welcome boost for Agadir as their forward is passed fit ahead of a busy schedule.',
+    body: '# Fit again\n\nHassania Agadir confirm their forward has recovered and is available for selection.',
+    coverImage: NEWS_IMG('photo-1459865264687-595d652de67e'),
+    category: 'Injury News',
+    status: 'published',
+    author: 'Salma Bennani',
+    publishedAt: isoFrom(-5),
+    updatedAt: isoFrom(-5),
   },
 ]
 

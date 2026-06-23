@@ -4,6 +4,7 @@ import {
   FileText,
   LayoutDashboard,
   ListOrdered,
+  Newspaper,
   Settings,
   Shield,
   Trophy,
@@ -68,7 +69,10 @@ export const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Content',
-    items: [{ label: 'CMS & FAQ', to: ROUTES.cms, icon: FileText, permission: 'cms.view', match: ['/cms'] }],
+    items: [
+      { label: 'CMS & FAQ', to: ROUTES.cms, icon: FileText, permission: 'cms.view', match: ['/cms'] },
+      { label: 'News & Blog', to: ROUTES.news, icon: Newspaper, permission: 'cms.view', match: ['/news'] },
+    ],
   },
   {
     title: 'Administration',
