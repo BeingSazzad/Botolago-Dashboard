@@ -18,6 +18,7 @@ export const ROUTES = {
   fixtures: '/fixtures',
   fixtureDetail: (id: string | number = ':id') => `/fixtures/${id}`,
   gameweeks: '/gameweeks',
+  gameweekDetail: (id: string | number = ':id') => `/gameweeks/${id}`,
   leaderboard: '/leaderboard',
 
   // People

@@ -1,12 +1,23 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CalendarClock, CheckCircle2, Layers, Zap } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { StatCard } from '@/components/shared/StatCard'
 import { Badge } from '@/components/ui/Badge'
+import { Select } from '@/components/ui/Select'
 import { DataTable, type Column } from '@/components/ui/Table'
 import { formatDate, formatNumber } from '@/lib/utils'
-import type { GameweekStatus } from '@/types/common.types'
+import { ROUTES } from '@/constants/routes'
+import type { GameweekStatus, SelectOption } from '@/types/common.types'
 import type { Gameweek } from '@/components/fixtures/types'
 import { useGetGameweeksQuery } from '@/services/endpoints/fixturesApi'
+
+const STATUS_OPTIONS: SelectOption<string>[] = [
+  { label: 'All statuses', value: 'all' },
+  { label: 'Upcoming', value: 'upcoming' },
+  { label: 'Live', value: 'live' },
+  { label: 'Finished', value: 'finished' },
+]
 
 function gwStatusVariant(status: GameweekStatus) {
   switch (status) {
@@ -31,12 +42,16 @@ function gwStatusLabel(status: GameweekStatus) {
 }
 
 export function GameweeksPage() {
+  const navigate = useNavigate()
   const { data: gameweeks = [], isLoading } = useGetGameweeksQuery()
+  const [statusFilter, setStatusFilter] = useState('all')
 
   const totalGw = gameweeks.length
   const liveGw = gameweeks.find((gw) => gw.status === 'live')
   const finishedCount = gameweeks.filter((gw) => gw.status === 'finished').length
   const upcomingCount = gameweeks.filter((gw) => gw.status === 'upcoming').length
+
+  const rows = statusFilter === 'all' ? gameweeks : gameweeks.filter((gw) => gw.status === statusFilter)
 
   const columns: Column<Gameweek>[] = [
     {
@@ -144,12 +159,25 @@ export function GameweeksPage() {
         />
       </div>
 
+      {/* Toolbar */}
+      <div className="mb-4 flex items-center gap-3">
+        <div className="w-44">
+          <Select
+            options={STATUS_OPTIONS}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            aria-label="Filter by status"
+          />
+        </div>
+      </div>
+
       {/* Gameweeks table */}
       <DataTable<Gameweek>
         columns={columns}
-        data={gameweeks}
+        data={rows}
         rowKey={(gw) => gw.id}
         loading={isLoading}
+        onRowClick={(gw) => navigate(ROUTES.gameweekDetail(gw.id))}
         emptyTitle="No gameweeks"
         emptyDescription="Gameweeks will appear here once the season is configured."
       />

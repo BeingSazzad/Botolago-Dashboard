@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Avatar } from '@/components/shared/Avatar'
 import { DataTable, type Column } from '@/components/ui/Table'
 import { Select } from '@/components/ui/Select'
 import { formatNumber } from '@/lib/utils'
+import { ROUTES } from '@/constants/routes'
 import { useGetLeaderboardQuery } from '@/services/endpoints/usersApi'
 import type { SelectOption } from '@/types/common.types'
 import type { User } from '@/components/users/types'
@@ -66,6 +68,7 @@ const columns: Column<User>[] = [
 ]
 
 export function LeaderboardPage() {
+  const navigate = useNavigate()
   const [limit, setLimit] = useState('10')
 
   const { data: leaderboard = [], isFetching } = useGetLeaderboardQuery({ limit: Number(limit) })
@@ -92,6 +95,7 @@ export function LeaderboardPage() {
         data={leaderboard}
         rowKey={(u) => u.id}
         loading={isFetching}
+        onRowClick={(u) => navigate(ROUTES.userDetail(u.id))}
         emptyTitle="No entries yet"
         emptyDescription="Rankings will appear once managers start scoring."
       />

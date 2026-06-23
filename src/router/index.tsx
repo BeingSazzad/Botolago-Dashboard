@@ -16,6 +16,7 @@ import { ScoringPage } from '@/pages/scoring/ScoringPage'
 import { FixturesPage } from '@/pages/fixtures/FixturesPage'
 import { FixtureDetailPage } from '@/pages/fixtures/FixtureDetailPage'
 import { GameweeksPage } from '@/pages/fixtures/GameweeksPage'
+import { GameweekDetailPage } from '@/pages/fixtures/GameweekDetailPage'
 import { LeaderboardPage } from '@/pages/leaderboard/LeaderboardPage'
 // People
 import { UsersPage } from '@/pages/users/UsersPage'
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
       { path: 'fixtures', element: protect(<FixturesPage />, 'fixtures.view') },
       { path: 'fixtures/:id', element: protect(<FixtureDetailPage />, 'fixtures.view') },
       { path: 'gameweeks', element: protect(<GameweeksPage />, 'fixtures.view') },
+      { path: 'gameweeks/:id', element: protect(<GameweekDetailPage />, 'fixtures.view') },
       { path: 'leaderboard', element: protect(<LeaderboardPage />, 'dashboard.view') },
 
       { path: 'users', element: protect(<UsersPage />, 'users.view') },

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import {
   Area,
   AreaChart,
-  Bar,
-  BarChart,
   CartesianGrid,
   Cell,
   Pie,
@@ -265,7 +263,7 @@ export function DashboardPage() {
 
   if (isLoading || !data || feedLoading || !feed) return <LoadingState label="Loading dashboard…" />
 
-  const { stats, signupTrend, positionBreakdown, pointsDistribution, recentActivity } = data
+  const { stats, signupTrend, positionBreakdown, recentActivity } = data
   const { dataFeed, matchday, topPerformers, availability, priceMovers, standings } = feed
   const liveCount = matchday.filter((m) => m.status === 'live').length
 
@@ -478,17 +476,20 @@ export function DashboardPage() {
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader title="Points distribution" description="How users are spread across point bands" />
-          <CardContent>
-            <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={pointsDistribution} margin={{ left: -20, right: 8, top: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#eef2f7" vertical={false} />
-                <XAxis dataKey="range" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: 12, border: '1px solid #e2e8f0', fontSize: 13 }} />
-                <Bar dataKey="users" fill="#1d4ed8" radius={[6, 6, 0, 0]} maxBarSize={48} />
-              </BarChart>
-            </ResponsiveContainer>
+          <CardHeader title="Recent activity" action={<Badge variant="success" dot>Live</Badge>} />
+          <CardContent className="divide-y divide-slate-100 p-0">
+            {recentActivity.map((a) => (
+              <div key={a.id} className="flex items-center gap-3 px-5 py-3.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+                  <CalendarClock className="h-4 w-4" />
+                </div>
+                <p className="flex-1 text-sm text-slate-600">
+                  <span className="font-medium text-slate-800">{a.actor}</span> {a.action}{' '}
+                  <span className="font-medium text-slate-800">{a.target}</span>
+                </p>
+                <span className="text-xs text-slate-400">{formatDate(a.at, true)}</span>
+              </div>
+            ))}
           </CardContent>
         </Card>
 
@@ -516,24 +517,6 @@ export function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-
-      <Card className="mt-6">
-        <CardHeader title="Recent activity" action={<Badge variant="success" dot>Live</Badge>} />
-        <CardContent className="divide-y divide-slate-100 p-0">
-          {recentActivity.map((a) => (
-            <div key={a.id} className="flex items-center gap-3 px-5 py-3.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                <CalendarClock className="h-4 w-4" />
-              </div>
-              <p className="flex-1 text-sm text-slate-600">
-                <span className="font-medium text-slate-800">{a.actor}</span> {a.action}{' '}
-                <span className="font-medium text-slate-800">{a.target}</span>
-              </p>
-              <span className="text-xs text-slate-400">{formatDate(a.at, true)}</span>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
     </div>
   )
 }
